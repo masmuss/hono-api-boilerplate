@@ -1,0 +1,34 @@
+{
+  "name": "hono-api-boilerplate",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "A API boilerplate for hono",
+  "scripts": {
+    "dev": "bun run --hot src/index.ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "db:generate": "bunx drizzle-kit generate",
+    "db:push": "bunx drizzle-kit push"
+  },
+  "dependencies": {
+    "@hono/zod-openapi": "^0.18.3",
+    "@scalar/hono-api-reference": "^0.5.169",
+    "drizzle-orm": "^0.39.0",
+    "drizzle-zod": "^0.7.0",
+    "hono": "^4.6.19",
+    "hono-pino": "^0.7.0",
+    "pg": "^8.13.1",
+    "pino": "^9.6.0",
+    "pino-pretty": "^13.0.0",
+    "stoker": "^1.4.2",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^4.1.0",
+    "@types/bun": "latest",
+    "@types/pg": "^8.11.11",
+    "drizzle-kit": "^0.30.3",
+    "eslint": "^9.19.0",
+    "eslint-plugin-format": "^1.0.1"
+  }
+}
