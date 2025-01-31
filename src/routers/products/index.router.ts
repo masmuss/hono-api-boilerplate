@@ -1,6 +1,6 @@
 import { createRouter } from "@/lib/create-app";
 
-import { ProductsHandler } from "./products.handler";
+import { ProductsHandler } from "../../handlers/products/products.handler";
 import { ProductsRoutes } from "./products.routes";
 
 const productHandler = new ProductsHandler();

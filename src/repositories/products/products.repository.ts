@@ -2,7 +2,7 @@ import { and, eq, isNull} from "drizzle-orm";
 
 import { productsTable } from "@/db/schemas/product";
 
-import type { CreateProduct, Product } from "./products.types";
+import type { CreateProduct, Product } from "../../routers/products/products.types";
 import { BaseRepository } from "../baseRepository";
 
 export class ProductsRepository extends BaseRepository {

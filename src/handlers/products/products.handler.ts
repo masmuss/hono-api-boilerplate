@@ -9,26 +9,22 @@ import type {
   ProductByIdRoute,
   ProductsRoute,
   PutProductRoute,
-} from "./products.types";
+} from "../../routers/products/products.types";
 
-import { ProductsRepository } from "./products.repository";
-import { responseHelper } from "@/helpers/response.helper";
-import { MessageHelper } from "@/helpers/message.helper";
+import { ProductsRepository } from "../../repositories/products/products.repository";
+import { BaseHandler } from "@/handlers/baseHandler";
 
-export class ProductsHandler {
-  private productRepository: ProductsRepository;
-  private messageHelper: MessageHelper;
-
+export class ProductsHandler extends BaseHandler {
+  
   constructor() {
-    this.productRepository = new ProductsRepository();
-    this.messageHelper = new MessageHelper();
+    super(new ProductsRepository());
   }
 
   getAllProduct: AppRouteHandler<ProductsRoute> = async (c) => {
     const filter = c.req.valid("query");
 
-    const products = await this.productRepository.getAll(filter);
-    return c.json(responseHelper(
+    const products = await this.repository.getAll(filter);
+    return c.json(this.responseBuilder(
       products,
       this.messageHelper.successGetAllMessage("products"),
       null,
@@ -37,7 +33,7 @@ export class ProductsHandler {
 
   getProductById: AppRouteHandler<ProductByIdRoute> = async (c) => {
     const { id } = c.req.valid("param");
-    const product = await this.productRepository.findById(id);
+    const product = await this.repository.findById(id);
 
     if (!product) {
       return c.json(
@@ -46,7 +42,7 @@ export class ProductsHandler {
       );
     }
 
-    return c.json(responseHelper(
+    return c.json(this.responseBuilder(
       product,
       this.messageHelper.successGetByIdMessage("products"),
       null,
@@ -55,7 +51,7 @@ export class ProductsHandler {
 
   createProduct: AppRouteHandler<CreateProductRoute> = async (c) => {
     const product = c.req.valid("json");
-    const inserted = await this.productRepository.create(product);
+    const inserted = await this.repository.create(product);
     return c.json(inserted, HttpStatusCodes.CREATED);
   };
 
@@ -63,7 +59,7 @@ export class ProductsHandler {
     const { id } = c.req.valid("param");
     const newProductData = c.req.valid("json");
 
-    const updated = await this.productRepository.update(id, newProductData);
+    const updated = await this.repository.update(id, newProductData);
     if (!updated) {
       return c.json({ message: HttpStatusPhrases.NOT_FOUND }, HttpStatusCodes.NOT_FOUND);
     }
@@ -74,12 +70,12 @@ export class ProductsHandler {
   deleteProduct: AppRouteHandler<DeleteProductRoute> = async (c) => {
     const { id } = c.req.valid("param");
 
-    const product = await this.productRepository.findById(id);
+    const product = await this.repository.findById(id);
     if (!product) {
       return c.json({ message: HttpStatusPhrases.NOT_FOUND }, HttpStatusCodes.NOT_FOUND);
     }
 
-    await this.productRepository.softDelete(id);
+    await this.repository.softDelete(id);
     return c.json({ message: HttpStatusPhrases.NO_CONTENT });
   };
 }
