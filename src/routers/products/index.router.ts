@@ -1,13 +1,16 @@
 import { createRouter } from "@/lib/create-app";
 
-import * as handlers from "./products.handler";
-import * as routes from "./products.routes";
+import { ProductsHandler } from "./products.handler";
+import { ProductsRoutes } from "./products.routes";
+
+const productHandler = new ProductsHandler();
+const routes = new ProductsRoutes();
 
 const router = createRouter()
-  .openapi(routes.allProducts, handlers.getAllProduct)
-  .openapi(routes.productById, handlers.getProductById)
-  .openapi(routes.createProduct, handlers.createProduct)
-  .openapi(routes.putProduct, handlers.updateProduct)
-  .openapi(routes.deleteProduct, handlers.deleteProduct);
+  .openapi(routes.allProducts, productHandler.getAllProduct)
+  .openapi(routes.productById, productHandler.getProductById)
+  .openapi(routes.createProduct, productHandler.createProduct)
+  .openapi(routes.putProduct, productHandler.updateProduct)
+  .openapi(routes.deleteProduct, productHandler.deleteProduct);
 
 export default router;
