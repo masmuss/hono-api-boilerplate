@@ -12,22 +12,25 @@ import type {
 } from "./products.types";
 
 import { ProductsRepository } from "./products.repository";
-import { response } from "@/helpers/response";
+import { responseHelper } from "@/helpers/response.helper";
+import { MessageHelper } from "@/helpers/message.helper";
 
 export class ProductsHandler {
   private productRepository: ProductsRepository;
+  private messageHelper: MessageHelper;
 
   constructor() {
     this.productRepository = new ProductsRepository();
+    this.messageHelper = new MessageHelper();
   }
 
   getAllProduct: AppRouteHandler<ProductsRoute> = async (c) => {
     const filter = c.req.valid("query");
 
     const products = await this.productRepository.getAll(filter);
-    return c.json(response(
+    return c.json(responseHelper(
       products,
-      "get all products",
+      this.messageHelper.successGetAllMessage("products"),
       null,
     ), HttpStatusCodes.OK);
   };
@@ -43,9 +46,9 @@ export class ProductsHandler {
       );
     }
 
-    return c.json(response(
+    return c.json(responseHelper(
       product,
-      "get product by id",
+      this.messageHelper.successGetByIdMessage("products"),
       null,
     ), HttpStatusCodes.OK);
   };

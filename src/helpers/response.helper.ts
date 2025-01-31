@@ -1,4 +1,4 @@
-export function response(
+export function responseHelper(
     data: any,
     message: string,
     error: Error | null

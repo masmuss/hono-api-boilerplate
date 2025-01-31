@@ -1,52 +1,15 @@
-import { and, eq, isNull, SQL, or } from "drizzle-orm";
+import { and, eq, isNull} from "drizzle-orm";
 
-import db from "@/db";
 import { productsTable } from "@/db/schemas/product";
 
 import type { CreateProduct, Product } from "./products.types";
+import { BaseRepository } from "../baseRepository";
 
-export class ProductsRepository {
-  private drizzle;
-
-  constructor() {
-    this.drizzle = db;
-  }
-
-  filterBuilder = (table: any, filter: Record<string, any>) => {
-    const conditions: SQL[] = [];
-
-    const { search, ...filtered } = filter;
-
-    for (const key in filtered) {
-      const value = filtered[key];
-      const column = (table as any)[key];
-
-      if (value === null) {
-        conditions.push(isNull(column));
-      } else {
-        conditions.push(eq(column, value));
-      }
-    }
-
-    return conditions;
-  }
-
-  searchBuilder = (table: any, search: string, column: string[]) => {
-    const conditions: SQL[] = [];
-
-    column.forEach((col) => {
-      conditions.push(table[col].ilike(`%${search}%`));
-    });
-
-    return or(...conditions);
-  }
-
+export class ProductsRepository extends BaseRepository {
   async getAll(filter: Record<string, any>): Promise<Product[]> {
     const filterCondition = this.filterBuilder(productsTable, filter);
     const searchCondition = filter.search ? this.searchBuilder(productsTable, filter.search, ["name"]) : null;
-
-    console.log(filterCondition, searchCondition);
-
+  
     return await this.drizzle
       .select()
       .from(productsTable)
