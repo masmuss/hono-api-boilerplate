@@ -21,14 +21,22 @@ export class ProductsHandler extends BaseHandler {
   }
 
   getAllProduct: AppRouteHandler<ProductsRoute> = async (c) => {
-    const filter = c.req.valid("query");
+    try {
+      const filter = c.req.valid("query");
 
-    const products = await this.repository.getAll(filter);
-    return c.json(this.responseBuilder(
-      products,
-      this.messageHelper.successGetAllMessage("products"),
-      null,
-    ), HttpStatusCodes.OK);
+      const products = await this.repository.getAll(filter);
+      return c.json(this.responseBuilder(
+        products,
+        this.messageHelper.successGetAllMessage("products"),
+        null,
+      ), HttpStatusCodes.OK);
+    } catch (error) {
+      return c.json(this.responseBuilder(
+        null,
+        this.messageHelper.errorServerMessage(),
+        error as Error,
+      ), HttpStatusCodes.INTERNAL_SERVER_ERROR);
+    }
   };
 
   getProductById: AppRouteHandler<ProductByIdRoute> = async (c) => {
@@ -37,7 +45,11 @@ export class ProductsHandler extends BaseHandler {
 
     if (product.length === 0) {
       return c.json(
-        { message: HttpStatusPhrases.NOT_FOUND },
+        this.responseBuilder(
+          null,
+          this.messageHelper.errorNotFoundMessage("products"),
+          null
+        ),
         HttpStatusCodes.NOT_FOUND,
       );
     }

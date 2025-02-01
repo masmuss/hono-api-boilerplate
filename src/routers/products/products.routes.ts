@@ -18,6 +18,7 @@ export class ProductsRoutes {
       query: z.object({
         search: z.string().optional(),
         name: z.string().optional(),
+        categoryId: z.number().optional(),
       }),
     },
     responses: {
@@ -28,6 +29,14 @@ export class ProductsRoutes {
           error: z.nullable(z.string()),
         }),
         "get all products",
+      ),
+      [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
+        z.object({
+          data: selectProductSchema,
+          message: z.string(),
+          error: z.nullable(z.string()),
+        }),
+        "product not found",
       ),
     },
   });
@@ -46,7 +55,11 @@ export class ProductsRoutes {
         error: z.nullable(z.string()),
       }), "get product by id"),
       [HttpStatusCodes.NOT_FOUND]: jsonContent(
-        notFoundSchema,
+        z.object({
+          data: selectProductSchema,
+          message: z.string(),
+          error: z.nullable(z.string()),
+        }),
         "product not found",
       ),
       [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
