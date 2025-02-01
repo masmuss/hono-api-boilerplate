@@ -20,7 +20,7 @@ export class ProductsRepository extends BaseRepository<typeof productsTable> {
       .where(and(isNull(productsTable.deletedAt), ...filterCondition, ...(searchCondition ? [searchCondition] : [])));
   }
 
-  async findById(id: number): Promise<Product[] | null> {
+  async findById(id: number): Promise<Product[]> {
     return await this.drizzle
       .select()
       .from(productsTable)

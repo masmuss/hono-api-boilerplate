@@ -18,7 +18,6 @@ export class ProductsRoutes {
       query: z.object({
         search: z.string().optional(),
         name: z.string().optional(),
-        categoryId: z.number().optional(),
       }),
     },
     responses: {

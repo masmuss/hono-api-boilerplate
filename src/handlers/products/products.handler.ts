@@ -9,13 +9,13 @@ import type {
   ProductByIdRoute,
   ProductsRoute,
   PutProductRoute,
-} from "../../routers/products/products.types";
+} from "@/routers/products/products.types";
 
-import { ProductsRepository } from "../../repositories/products/products.repository";
+import { ProductsRepository } from "@/repositories/products/products.repository";
 import { BaseHandler } from "@/core/base/base-handler";
 
 export class ProductsHandler extends BaseHandler {
-  
+
   constructor() {
     super(new ProductsRepository());
   }
@@ -35,7 +35,7 @@ export class ProductsHandler extends BaseHandler {
     const { id } = c.req.valid("param");
     const product = await this.repository.findById(id);
 
-    if (!product) {
+    if (product.length === 0) {
       return c.json(
         { message: HttpStatusPhrases.NOT_FOUND },
         HttpStatusCodes.NOT_FOUND,
