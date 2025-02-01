@@ -1,4 +1,4 @@
-import { MessageHelper } from "@/helpers/message.helper";
+import { MessageHelper } from "@/core/utils/helpers/message.helper"; 
 
 export class BaseHandler {
     protected repository;
