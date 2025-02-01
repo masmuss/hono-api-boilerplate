@@ -14,7 +14,7 @@ export default antfu(
   },
   {
     rules: {
-      "no-console": ["warn"],
+      "no-console": ["error"],
       "antfu/no-top-level-await": ["off"],
       "node/prefer-global/process": ["off"],
       "node/no-process-env": ["error"],

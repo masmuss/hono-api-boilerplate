@@ -1,4 +1,4 @@
-import { createRouter } from "@/lib/create-app";
+import { createRouter } from "@/core/utils/lib/create-app";
 
 import { ProductsHandler } from "./products.handler";
 import { ProductsRoutes } from "./products.routes";

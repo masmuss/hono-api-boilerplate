@@ -1,6 +1,6 @@
 import { index, integer, pgTable, serial, text } from "drizzle-orm/pg-core";
 
-import timestampsHelper from "@/helpers/db-table-timestamps.helper";
+import timestampsHelper from "@/core/utils/helpers/db-table-timestamps.helper";
 
 export const productsTable = pgTable(
   "products",

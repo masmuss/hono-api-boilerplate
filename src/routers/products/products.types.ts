@@ -1,7 +1,7 @@
 import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import type { z } from "zod";
 
-import type { productsTable } from "@/db/schemas/product";
+import type { productsTable } from "@/core/db/schemas/product";
 
 import type { createProductSchema, updateProductSchema } from "./products.validations";
 

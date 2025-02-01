@@ -1,7 +1,10 @@
 import * as HttpStatusCodes from "stoker/http-status-codes";
 import * as HttpStatusPhrases from "stoker/http-status-phrases";
 
-import type { AppRouteHandler } from "@/lib/types";
+import type { AppRouteHandler } from "@/core/types";
+
+import { MessageHelper } from "@/core/utils/helpers/message.helper";
+import { responseHelper } from "@/core/utils/helpers/response.helper";
 
 import type {
   CreateProductRoute,
@@ -12,8 +15,6 @@ import type {
 } from "./products.types";
 
 import { ProductsRepository } from "./products.repository";
-import { responseHelper } from "@/helpers/response.helper";
-import { MessageHelper } from "@/helpers/message.helper";
 
 export class ProductsHandler {
   private productRepository: ProductsRepository;

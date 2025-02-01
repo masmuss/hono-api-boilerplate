@@ -3,7 +3,7 @@ import * as HttpStatusCodes from "stoker/http-status-codes";
 import { jsonContent, jsonContentRequired } from "stoker/openapi/helpers";
 import { createErrorSchema, IdParamsSchema } from "stoker/openapi/schemas";
 
-import { notFoundSchema } from "@/lib/constants";
+import { notFoundSchema } from "@/core/utils/lib/constants";
 
 import { createProductSchema, selectProductSchema, updateProductSchema } from "./products.validations";
 

@@ -1,20 +1,23 @@
-import { and, eq, isNull} from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 
-import { productsTable } from "@/db/schemas/product";
+import { BaseRepository } from "@/core/base/base-repository";
+import { productsTable } from "@/core/db/schemas/product";
 
 import type { CreateProduct, Product } from "./products.types";
-import { BaseRepository } from "../baseRepository";
 
-export class ProductsRepository extends BaseRepository {
+export class ProductsRepository extends BaseRepository<typeof productsTable> {
+  constructor() {
+    super(productsTable);
+  }
+
   async getAll(filter: Record<string, any>): Promise<Product[]> {
-    const filterCondition = this.filterBuilder(productsTable, filter);
-    const searchCondition = filter.search ? this.searchBuilder(productsTable, filter.search, ["name"]) : null;
-  
+    const filterCondition = this.filterBuilder(filter);
+    const searchCondition = filter.search ? this.searchBuilder(filter.search, ["name"]) : null;
+
     return await this.drizzle
       .select()
       .from(productsTable)
       .where(and(isNull(productsTable.deletedAt), ...filterCondition, ...(searchCondition ? [searchCondition] : [])));
-
   }
 
   async findById(id: number): Promise<Product[] | null> {
