@@ -3,7 +3,7 @@ import { and, eq, isNull } from "drizzle-orm";
 import { BaseRepository } from "@/core/base/base-repository";
 import { productsTable } from "@/core/db/schemas/product";
 
-import type { CreateProduct, Product } from "./products.types";
+import type { CreateProduct, Product } from "@/routers/products/products.types";
 
 export class ProductsRepository extends BaseRepository<typeof productsTable> {
   constructor() {
